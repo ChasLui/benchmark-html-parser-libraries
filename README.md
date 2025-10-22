@@ -6,29 +6,33 @@ A Benchmark of javascript libraries for parsing HTML (CPU/RAM)
 This benchmark includes the following HTML parser libraries:
 
 ### Original Libraries
-- **htmlparser2** - Fast & forgiving HTML/XML parser
-- **parse5** - HTML5-compliant parser
-- **jsdom** - JavaScript implementation of web standards
-- **html5parser** - HTML5 spec-compliant parser
-- **libxmljs** - libxml2 bindings for Node.js
-- **sax** - SAX-style XML parser
-- **html-dom-parser** - HTML to DOM parser
-- **fast-xml-parser** - Fast XML/HTML parser
-- And more...
+- **htmlparser2** - Fast & forgiving HTML/XML parser with streaming support 🌐 *Browser + Node.js*
+- **parse5** - HTML5 spec-compliant parser with detailed error reporting 🌐 *Browser + Node.js*
+- **jsdom** - Full JavaScript implementation of web standards for Node.js *Node.js only*
+- **html5parser** - Lightweight HTML5 spec-compliant streaming parser 🌐 *Browser + Node.js*
+- **libxmljs** - Fast native libxml2 bindings for Node.js with XPath support *Node.js only (native)*
+- **sax** - Streaming SAX-style XML parser with low memory footprint 🌐 *Browser + Node.js*
+- **html-dom-parser** - Converts HTML strings to DOM nodes using htmlparser2 🌐 *Browser + Node.js*
+- **fast-xml-parser** - High-performance XML/HTML parser with validation support 🌐 *Browser + Node.js*
+- **htmlparser** - Original tolerant HTML parser for Node.js (legacy) *Node.js only*
+- **html-parser** - Simple and flexible HTML tokenizer and parser 🌐 *Browser + Node.js*
+- **html5** - HTML5 parser implementation in pure JavaScript 🌐 *Browser + Node.js*
+- **neutron-html5parser** - Ultra-lightweight HTML5 parser with minimal overhead 🌐 *Browser + Node.js*
+- **sax-wasm** - WebAssembly-based SAX parser for extreme performance 🌐 *Browser + Node.js*
 
 ### Newly Added Libraries (2025)
-- **cheerio** - Fast, jQuery-like DOM manipulation (based on htmlparser2 and parse5)
-- **node-html-parser** - Pure JavaScript, zero dependencies, browser-like DOM API
-- **linkedom** - Lightweight DOM implementation by Cloudflare, browser-compatible API
-- **domino** - Server-side DOM implementation with browser-consistent API
-- **@xmldom/xmldom** - Native DOM Level 2/3 implementation for HTML and XML
-- **rehype** - unified ecosystem HTML processor with AST transformation
+- **cheerio** - Fast, jQuery-like DOM manipulation (based on htmlparser2 and parse5) 🌐 *Browser + Node.js*
+- **node-html-parser** - Pure JavaScript, zero dependencies, browser-like DOM API 🌐 *Browser + Node.js*
+- **linkedom** - Lightweight DOM implementation by Cloudflare, browser-compatible API 🌐 *Browser + Node.js*
+- **domino** - Server-side DOM implementation with browser-consistent API *Node.js only*
+- **@xmldom/xmldom** - Native DOM Level 2/3 implementation for HTML and XML 🌐 *Browser + Node.js*
+- **rehype** - unified ecosystem HTML processor with AST transformation 🌐 *Browser + Node.js*
 
 ### XML Parser Libraries (2025)
-- **saxes** - Evented streaming XML parser, modern fork of sax-js with TypeScript support
-- **ltx** - Lightweight XML parser for XMPP/Jabber applications (from @xmppjs)
-- **node-xml** - Libxml bindings for Node.js, SAX-style XML to JSON parser
-- **node-expat** - Fast streaming XML parser based on libexpat
+- **saxes** - Evented streaming XML parser, modern fork of sax-js with TypeScript support 🌐 *Browser + Node.js*
+- **ltx** - Lightweight XML parser for XMPP/Jabber applications (from @xmppjs) 🌐 *Browser + Node.js*
+- **node-xml** - Libxml bindings for Node.js, SAX-style XML to JSON parser *Node.js only (native)*
+- **node-expat** - Fast streaming XML parser based on libexpat *Node.js only (native)*
 
 # Results
 
