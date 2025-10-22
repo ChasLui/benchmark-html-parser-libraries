@@ -1,10 +1,15 @@
-const fs = require('fs');
-const path = require('path');
-const si = require('systeminformation');
-const matrixToAsciiTable = require('asciitable.js');
-const S = require('tiny-dedent');
+import fs from 'fs';
+import path from 'path';
+import si from 'systeminformation';
+import matrixToAsciiTable from 'asciitable.js';
+import S from 'tiny-dedent';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-var executor = require('./execute');
+import executor from './execute.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 async function main() {
 

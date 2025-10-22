@@ -1,9 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const fg = require('fast-glob');
-const summary = require('summary');
-const ProgressBar = require('progress');
-const { parse } = require('html5parser');
+import fs from 'fs';
+import summary from 'summary';
+import ProgressBar from 'progress';
 
 process.on('uncaughtException', crashed);
 process.on('unhandledRejection', crashed);
@@ -25,14 +22,15 @@ async function start(task) {
 	ram['baseline'] = process.memoryUsage();
 	let tRequire = process.hrtime();
 	
-	const theModule = require(task.jsModule);
-	if (typeof theModule === 'object') await theModule.setup();
+	const theModule = await import(task.jsModule);
+	if (typeof theModule === 'object' && theModule.setup) await theModule.setup();
+	if (typeof theModule === 'object' && theModule.default && theModule.default.setup) await theModule.default.setup();
 	
 	tRequire = hrtime2ms(process.hrtime(tRequire));
 	ram['required'] = process.memoryUsage();
 	// end load lib
 
-	const parser = typeof theModule === 'function' ? theModule : theModule.parse;
+	const parser = typeof theModule.default === 'function' ? theModule.default : (theModule.parse || theModule.default?.parse);
 	
 	const bar = new ProgressBar('[:bar] :percent (:current/:total) | :rate HTML/s | ETA: :eta | ', {
 		total: task.inputFiles.length,

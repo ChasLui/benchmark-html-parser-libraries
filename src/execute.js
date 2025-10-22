@@ -1,14 +1,17 @@
-const fs = require('fs');
-const path = require('path');
-const fork = require('child_process').fork;
-const fg = require('fast-glob');
-const pidusage = require('pidusage');
-const MemorySampler = require('./memorySampler');
-const summary = require('summary');
+import path from 'path';
+import { fork } from 'child_process';
+import fg from 'fast-glob';
+import MemorySampler from './memorySampler.js';
+import summary from 'summary';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const workerFile = path.join(__dirname, 'worker.js');
 
-module.exports = async () => {
+export default async () => {
 
 	const results = [];
 	
@@ -38,36 +41,41 @@ module.exports = async () => {
 			ram.start();
 		}
 
-		try {
-			task.result = await executeChildWorker(workerFile, task, onSpawn);
-		}
-		catch (err) {
-			console.error('%s failed (exit code %d)', test.name, err);
-			task.result = {};
-		}
-	
-		ram.stop();
-		
-		// Collected memory usage of the worker from the parent process perspective
-		let statsRam = summary(Array.from(ram.samples).map(o => o.bytes));
+	try {
+		task.result = await executeChildWorker(workerFile, task, onSpawn);
+	}
+	catch (err) {
+		console.error('%s failed (exit code %d)', test.name, err);
+		task.result = null;
+	}
 
-		// Sampling memory from inside the worker is limited to reading usage before and after parsing due to the single thread nature.
-		// Sampling from the outside process is also not perfect as it can fail to catch a fast peak in, so we take the worse stats.
-		task.result.ram.mean = Math.max(statsRam.mean(), task.result.ram.mean);
-		task.result.ram.sd = Math.max(statsRam.sd(), task.result.ram.sd);
-		// task.result.ram.min = Math.max(statsRam.min(), task.result.ram.min);
-		task.result.ram.max = Math.max(statsRam.max(), task.result.ram.max);
+	ram.stop();
+	
+	// Skip if test failed
+	if (!task.result || !task.result.ram) {
+		continue;
+	}
+	
+	// Collected memory usage of the worker from the parent process perspective
+	let statsRam = summary(Array.from(ram.samples).map(o => o.bytes));
+
+	// Sampling memory from inside the worker is limited to reading usage before and after parsing due to the single thread nature.
+	// Sampling from the outside process is also not perfect as it can fail to catch a fast peak in, so we take the worse stats.
+	task.result.ram.mean = Math.max(statsRam.mean(), task.result.ram.mean);
+	task.result.ram.sd = Math.max(statsRam.sd(), task.result.ram.sd);
+	// task.result.ram.min = Math.max(statsRam.min(), task.result.ram.min);
+	task.result.ram.max = Math.max(statsRam.max(), task.result.ram.max);
 		
-		console.log(
-			'[RAM] Mean: %sMB/file ± %sMB\tMin: %sMB\tMax: %sMB\tSetup: %sMB\tInitial: %sMB\tFinal: %sMB',
-			(Math.max(statsRam.mean, task.result.ram.mean) / 1E6).toPrecision(6),
-			(Math.max(statsRam.sd, task.result.ram.sd) / 1E6).toPrecision(3),
-			(Math.max(statsRam.min, task.result.ram.min) / 1E6).toPrecision(3),
-			(Math.max(statsRam.max, task.result.ram.max) / 1E6).toPrecision(3),
-			(task.result.ram.required.rss / 1E6).toPrecision(3),
-			(task.result.ram.baseline.rss / 1E6).toPrecision(3),
-			(task.result.ram.final.rss / 1E6).toPrecision(3),
-		);
+	console.log(
+		'[RAM] Mean: %sMB/file ± %sMB\tMin: %sMB\tMax: %sMB\tSetup: %sMB\tInitial: %sMB\tFinal: %sMB',
+		(Math.max(statsRam.mean(), task.result.ram.mean) / 1E6).toPrecision(6),
+		(Math.max(statsRam.sd(), task.result.ram.sd) / 1E6).toPrecision(3),
+		(Math.max(statsRam.min(), task.result.ram.min) / 1E6).toPrecision(3),
+		(Math.max(statsRam.max(), task.result.ram.max) / 1E6).toPrecision(3),
+		(task.result.ram.required.rss / 1E6).toPrecision(3),
+		(task.result.ram.baseline.rss / 1E6).toPrecision(3),
+		(task.result.ram.final.rss / 1E6).toPrecision(3),
+	);
 		console.log(
 			'[CPU] Mean: %sms/file ± %sms\tMin: %sms\tMax: %sms\tStartup: %sms',
 			task.result.timming.mean.toPrecision(6),

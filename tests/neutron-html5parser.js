@@ -1,6 +1,7 @@
-const HTMLtoDOM = require("neutron-html5parser")();
+import neutronHTML5Parser from "neutron-html5parser";
+const HTMLtoDOM = neutronHTML5Parser();
 
-module.exports = async function (html) {
+export default async function (html) {
     function noop() { }
     return HTMLtoDOM.Parser(html, {
         start: noop,

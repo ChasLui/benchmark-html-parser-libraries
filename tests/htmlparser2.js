@@ -1,6 +1,6 @@
-const Parser = require("htmlparser2").Parser;
+import { Parser } from "htmlparser2";
 
-module.exports = function (html) {
+export default function (html) {
 	return new Promise((resolve, reject) => {
 
 		const parser = new Parser({

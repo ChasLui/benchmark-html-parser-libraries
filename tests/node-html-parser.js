@@ -1,5 +1,6 @@
-import { parse } from 'parse5';
+import { parse } from 'node-html-parser';
 
 export default function (html) {
 	return parse(html);
 }
+

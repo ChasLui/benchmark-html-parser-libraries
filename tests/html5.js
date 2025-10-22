@@ -1,6 +1,7 @@
-const Parser = require('html5').SAXParser;
+import pkg from 'html5';
+const { SAXParser: Parser } = pkg;
 
-module.exports = async function (html) {
+export default async function (html) {
 	var parser = new Parser();
 	var noop = function() {};
 	parser.contentHandler = {

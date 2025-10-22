@@ -1,5 +1,5 @@
-const parse = require("html-dom-parser");
+import parse from "html-dom-parser";
 
-module.exports = async function (html) {
+export default async function (html) {
 	return parse(html);
 };

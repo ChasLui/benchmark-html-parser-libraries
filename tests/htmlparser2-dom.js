@@ -1,9 +1,7 @@
-const htmlparser2 = require('htmlparser2'),
-    Parser = htmlparser2.Parser,
-    Handler = htmlparser2.DomHandler;
+import { Parser, DomHandler } from 'htmlparser2';
 
-module.exports = async function (html) {
-  const handler = new Handler();
+export default async function (html) {
+	const handler = new DomHandler();
 	const parser = new Parser(handler);
 	return parser.parseComplete(html);
 };

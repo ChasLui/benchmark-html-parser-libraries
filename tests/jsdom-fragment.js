@@ -1,7 +1,7 @@
-const jsdom = require('jsdom');
+import jsdom from 'jsdom';
 const { JSDOM } = jsdom;
 
-module.exports = async function (html) {
+export default async function (html) {
     const dom = JSDOM.fragment(html, { url: 'http://example.com' });
     return dom;
 }

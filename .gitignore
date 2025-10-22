@@ -1,1 +1,4 @@
 node_modules/
+.spec-workflow/
+.qoder/
+AGENTS.md

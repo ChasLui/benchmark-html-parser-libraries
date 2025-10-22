@@ -1,5 +1,5 @@
-const html5parser = require("html5parser");
+import { parse } from 'html5parser';
 
-module.exports = (html, callback) => {
-  return html5parser.parse(html);
-};
+export default function (html) {
+    return parse(html);
+}

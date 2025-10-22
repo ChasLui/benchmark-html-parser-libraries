@@ -1,7 +1,6 @@
+import pidusage from 'pidusage';
 
-const pidusage = require('pidusage');
-
-module.exports = class MemorySampler {
+export default class MemorySampler {
 	
     ms = 10;
 	samples = new Set();

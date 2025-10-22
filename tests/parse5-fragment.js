@@ -1,5 +1,5 @@
-const parse5 = require('parse5');
+import { parseFragment } from 'parse5';
 
-module.exports = function(html, callback) {
-	return parse5.parseFragment(html.toString());
+export default function(html, callback) {
+	return parseFragment(html.toString());
 };
